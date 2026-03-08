@@ -184,7 +184,7 @@ def sector_evaluate(secs, dt_rfs, date1, date2):
                         x=alt.X('Performance:Q').scale(domain=[dom_xmin, dom_xmax]),
                                 color=clrs_data).properties(height=700))
 
-    st.altair_chart(chart_Sec,width=600,use_container_width=True,height="stretch")
+    st.altair_chart(chart_Sec,width="stretch",height="stretch")
 
 #end of def sector_evaluate*****************************************
    
@@ -300,7 +300,7 @@ def indus_evaluate(indus, dt_rfs, date1, date2):
                                 color=clrs_data).properties(height=700)) #labelLimit=300,
 
    
-    st.altair_chart(chart_Res,width=600,use_container_width=True,height="stretch")#"stretch")
+    st.altair_chart(chart_Res,width="stretch",height="stretch")
 
     #when only 1 industry selected, show details:
     if len(indus) == 2:            
@@ -404,4 +404,5 @@ st.write("Find tickers of an Industry (largest caps):")
 indu_t = st.selectbox("Select industry:", fvz.opts_industries[1:], width=450)
 if st.button("Find", key="indu_ticks"):
     find_tickers(indu_t)
+
 
