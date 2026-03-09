@@ -353,7 +353,7 @@ def find_tickers(ind):
 
 #--------------------------------------------------------------------------------------
 # program start
-st.subheader("S&P500 vs Sectors and Industries")
+st.subheader("S&P500 vs Sectors and Industries", divider="grey")
 st.text("""What happens to specific industries when the S&P 500 declines?
 This app helps answer questions like that by comparing the performance of the S&P 500 with its sectors or industries. It uses SPY, an ETF that tracks the S&P 500.
 Calculations are made between two SPY peaks (marked with red numbers on the chart).
