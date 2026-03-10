@@ -176,15 +176,16 @@ def sector_evaluate(secs, dt_rfs, date1, date2):
     elif Sec_res[0][1] > 1:
         x_right = 3.00
     
+    ch_height = len(Sec_res)*25+60 #len*(bar size)+padding
     dom_xmin = min(Sec_res[-1][1]*1.5, x_left) 
     dom_xmax = max(Sec_res[0][1]*1.1, x_right) 
 
     chart_Sec = (alt.Chart(Sec_res_df).mark_bar().encode(y=alt.Y('Sector:O',
                         sort='-x',axis=alt.Axis(labelAlign='left')),
                         x=alt.X('Performance:Q').scale(domain=[dom_xmin, dom_xmax]),
-                                color=clrs_data).properties(height=700))
+                                color=clrs_data).properties(height=ch_height))
 
-    st.altair_chart(chart_Sec,width="stretch",height="stretch")
+    st.altair_chart(chart_Sec,width="stretch")
 
 #end of def sector_evaluate*****************************************
    
@@ -292,15 +293,15 @@ def indus_evaluate(indus, dt_rfs, date1, date2):
     elif BRes_disp3[0][1] > 1:
         x_right = 3.00
     
+    ch_height = len(BRes_disp3)*25+60 #len*(bar size)+padding 
     dom_xmin = min(BRes_disp3[-1][1]*1.5, x_left) 
     dom_xmax = max(BRes_disp3[0][1]*1.1, x_right) 
     chart_Res = (alt.Chart(BRes_disp3_df).mark_bar().encode(y=alt.Y('Industry:O',
                         sort='-x',axis=alt.Axis(labelAlign='left')),
                         x=alt.X('Performance:Q').scale(domain=[dom_xmin, dom_xmax]),
-                                color=clrs_data).properties(height=700)) #labelLimit=300,
+                                color=clrs_data).properties(height=ch_height)) #labelLimit=300,
 
-   
-    st.altair_chart(chart_Res,width="stretch",height="stretch")
+    st.altair_chart(chart_Res,width="stretch")
 
     #when only 1 industry selected, show details:
     if len(indus) == 2:            
