@@ -369,7 +369,7 @@ Additional tools:
 -Find the sector and industry of a stock (enter a ticker)
 -Find largest-cap tickers within a specific industry""", text_alignment="justify")
 
-st.image("Figure_4.png", caption='Evolution of SPY since October 2022')
+st.image("Figure_5.png", caption='Evolution of SPY since October 2022')
 
 fe1 = st.selectbox("Select start:", hist_dates02, width=150)
 fe2 = st.selectbox("Select end:", hist_dates02, width=150)
