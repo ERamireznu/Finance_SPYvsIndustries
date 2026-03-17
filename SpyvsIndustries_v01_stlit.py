@@ -153,39 +153,32 @@ def sector_evaluate(secs, dt_rfs, date1, date2):
     Sec_res2_df = pd.DataFrame(Sec_res2,columns=['Sector','Performance'])
     st.dataframe(Sec_res2_df, width="content", hide_index=True)
 
+    Sec_res_a = [(x[0], round(x[1]*100, 1)) for x in Sec_res]
     #st chart:
-    Sec_res_df = pd.DataFrame(Sec_res,columns=['Sector','Performance'])
+    Sec_res_df = pd.DataFrame(Sec_res_a,columns=['Sector','Performance'])
 
     clrs_data = (alt.when(alt.datum.Sector == 'SPY')
-        .then(alt.value('orange'))      #specific category
+        .then(alt.value('yellow'))      #specific category
         .when(alt.datum.Performance < 0)
-        .then(alt.value('red'))         #negative values
+        .then(alt.value('#fc8a6b'))         #negative values
         .otherwise(alt.value('lightblue')))
+  
+    ch_height = len(Sec_res_a)*25+60 #len*(bar size)+padding
 
-    if Sec_res[-1][1] <= -0.50:
-        x_left = -3.00
-    elif Sec_res[-1][1] > -0.50 and Sec_res[-1][1] <= 0:
-        x_left = -2.00
-    elif Sec_res[-1][1] > 0:
-        x_left = -1.00
+    base = alt.Chart(Sec_res_df).encode(
+            y=alt.Y('Sector:O',
+            sort='-x',axis=alt.Axis(labelAlign='right',labelLimit=500)),
+            x=alt.X('Performance:Q')#.scale(domain=[dom_xmin, dom_xmax])
+            .title('Performance (%)'))
+                                
+    bars = base.mark_bar().encode(color=clrs_data)
+    text = base.mark_text(align='left',baseline='middle',
+        dx=7,
+        color='black').encode(text='Performance:Q')
 
-    if Sec_res[0][1] <= -0.50:
-        x_right = 0.50
-    elif Sec_res[0][1] > -0.50 and Sec_res[0][1] <= 1:
-        x_right = 2.00
-    elif Sec_res[0][1] > 1:
-        x_right = 3.00
-    
-    ch_height = len(Sec_res)*25+60 #len*(bar size)+padding
-    dom_xmin = min(Sec_res[-1][1]*1.5, x_left) 
-    dom_xmax = max(Sec_res[0][1]*1.1, x_right) 
-
-    chart_Sec = (alt.Chart(Sec_res_df).mark_bar().encode(y=alt.Y('Sector:O',
-                        sort='-x',axis=alt.Axis(labelAlign='left')),
-                        x=alt.X('Performance:Q').scale(domain=[dom_xmin, dom_xmax]),
-                                color=clrs_data).properties(height=ch_height))
-
+    chart_Sec = (bars + text).properties(height=ch_height)
     st.altair_chart(chart_Sec,width="stretch")
+
 
 #end of def sector_evaluate*****************************************
    
@@ -269,40 +262,32 @@ def indus_evaluate(indus, dt_rfs, date1, date2):
         else:
             BRes_disp3.append(x)
     #--------
-
+    BRes_disp3a = [(x[0], round(x[1]*100, 1)) for x in BRes_disp3]
     #st chart:
-    BRes_disp3_df = pd.DataFrame(BRes_disp3,columns=['Industry','Performance'])
+    BRes_disp3_df = pd.DataFrame(BRes_disp3a,columns=['Industry','Performance'])
 
     clrs_data = (alt.when(alt.datum.Industry == 'SPY')
-        .then(alt.value('orange'))      #specific category
+        .then(alt.value('yellow'))      #specific category
         .when(alt.datum.Performance < 0)
-        .then(alt.value('red'))         #negative values
+        .then(alt.value('#fc8a6b'))         #negative values
         .otherwise(alt.value('lightblue')))
-
-    if BRes_disp3[-1][1] <= -0.50:
-        x_left = -3.00
-    elif BRes_disp3[-1][1] > -0.50 and BRes_disp3[-1][1] <= 0:
-        x_left = -2.00
-    elif BRes_disp3[-1][1] > 0:
-        x_left = -1.00
-
-    if BRes_disp3[0][1] <= -0.50:
-        x_right = 0.50
-    elif BRes_disp3[0][1] > -0.50 and BRes_disp3[0][1] <= 1:
-        x_right = 2.00
-    elif BRes_disp3[0][1] > 1:
-        x_right = 3.00
     
-    ch_height = len(BRes_disp3)*25+60 #len*(bar size)+padding 
-    dom_xmin = min(BRes_disp3[-1][1]*1.5, x_left) 
-    dom_xmax = max(BRes_disp3[0][1]*1.1, x_right) 
-    chart_Res = (alt.Chart(BRes_disp3_df).mark_bar().encode(y=alt.Y('Industry:O',
-                        sort='-x',axis=alt.Axis(labelAlign='left')),
-                        x=alt.X('Performance:Q').scale(domain=[dom_xmin, dom_xmax]),
-                                color=clrs_data).properties(height=ch_height)) #labelLimit=300,
+    ch_height = len(BRes_disp3a)*25+60 #len*(bar size)+padding 
 
-    st.altair_chart(chart_Res,width="stretch")
+    base = alt.Chart(BRes_disp3_df).encode(
+            y=alt.Y('Industry:O',
+            sort='-x',axis=alt.Axis(labelAlign='right',labelLimit=500)),
+            x=alt.X('Performance:Q')#.scale(domain=[dom_xmin, dom_xmax])
+            .title('Performance (%)'))
+                                
+    bars = base.mark_bar().encode(color=clrs_data)
+    text = base.mark_text(align='left',baseline='middle',
+        dx=7,       # Shift text slightly to the right of the Y-axis start
+        color='black').encode(text='Performance:Q') #,fontWeight='bold'
 
+    chart_Res = (bars + text).properties(height=ch_height)
+    st.altair_chart(chart_Res,width="stretch")#,height="stretch")
+  
     #when only 1 industry selected, show details:
     if len(indus) == 2:            
         indus_details = [(x[0], round(x[2],1), round(x[1],4)) for x in BRes[1][1]]
