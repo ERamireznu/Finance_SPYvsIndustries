@@ -6,7 +6,7 @@ import altair as alt
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 import fvz_industries_v01 as fvz
-import industries_data_020326 as indata
+import industries_data_310326 as indata
 
 #-----------------------------------------------------------------------
 
@@ -48,9 +48,9 @@ dic_sectors = {'Basic Materials':[A01,A02,A03,A04,A05,A06,A07,A08,A09,A10,A11,A1
             'Utilities':[K01,K02,K03,K04,K05,K06]}
 
 #================================
-hist_dates00 = ['2022-10-13','2023-07-27','2023-10-27','2024-07-16','2024-08-05','2025-02-19','2025-04-07','2025-10-09','2025-11-20','2026-01-28']
-hist_dates00a = ['2022-10-13','2023-7-27','2023-10-27','2024-7-16','2024-8-5','2025-2-19','2025-4-7','2025-10-9','2025-11-20','2026-1-28']
-hist_dates01 = ['13/oct/22', '27/jul/23', '27/oct/23', '16/jul/24', '05/aug/24', '19/feb/25', '07/apr/25', '09/oct/25', '20/nov/25', '28/jan/26']
+hist_dates00 = ['2022-10-13','2023-07-27','2023-10-27','2024-07-16','2024-08-05','2025-02-19','2025-04-07','2025-10-09','2025-11-20','2026-01-28','2026-03-30']
+hist_dates00a = ['2022-10-13','2023-7-27','2023-10-27','2024-7-16','2024-8-5','2025-2-19','2025-4-7','2025-10-9','2025-11-20','2026-1-28','2026-3-30']
+hist_dates01 = ['13/oct/22', '27/jul/23', '27/oct/23', '16/jul/24', '05/aug/24', '19/feb/25', '07/apr/25', '09/oct/25', '20/nov/25', '28/jan/26', '30/mar/26']
 hist_dates02 = [f"({i+1}) {x}" for i,x in enumerate(hist_dates01)]
 
 dat_refs = indata.DHisto_dat[-1]  #last values stored (price, mktcap)
@@ -168,7 +168,7 @@ def sector_evaluate(secs, dt_rfs, date1, date2):
     base = alt.Chart(Sec_res_df).encode(
             y=alt.Y('Sector:O',
             sort='-x',axis=alt.Axis(labelAlign='right',labelLimit=500)),
-            x=alt.X('Performance:Q')#.scale(domain=[dom_xmin, dom_xmax])
+            x=alt.X('Performance:Q')
             .title('Performance (%)'))
                                 
     bars = base.mark_bar().encode(color=clrs_data)
@@ -277,12 +277,12 @@ def indus_evaluate(indus, dt_rfs, date1, date2):
     base = alt.Chart(BRes_disp3_df).encode(
             y=alt.Y('Industry:O',
             sort='-x',axis=alt.Axis(labelAlign='right',labelLimit=500)),
-            x=alt.X('Performance:Q')#.scale(domain=[dom_xmin, dom_xmax])
+            x=alt.X('Performance:Q')
             .title('Performance (%)'))
                                 
     bars = base.mark_bar().encode(color=clrs_data)
     text = base.mark_text(align='left',baseline='middle',
-        dx=7,       # Shift text slightly to the right of the Y-axis start
+        dx=7,       
         color='black').encode(text='Performance:Q') #,fontWeight='bold'
 
     chart_Res = (bars + text).properties(height=ch_height)
@@ -354,7 +354,7 @@ Additional tools:
 -Find the sector and industry of a stock (enter a ticker)
 -Find largest-cap tickers within a specific industry""", text_alignment="justify")
 
-st.image("Figure_5.png", caption='Evolution of SPY since October 2022')
+st.image("Figure_6.png", caption='Evolution of SPY since October 2022')
 
 fe1 = st.selectbox("Select start:", hist_dates02, width=150)
 fe2 = st.selectbox("Select end:", hist_dates02, width=150)
